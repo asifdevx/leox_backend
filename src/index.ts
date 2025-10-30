@@ -43,6 +43,7 @@ const httpServer = createServer(app);
 export const io = new Server(httpServer, {
   cors: { 
     origin: "https://leox-multi.vercel.app",
+    // origin: "http://192.168.19.43:3000",
     methods: ["GET", "POST"],
     credentials: true,
    },

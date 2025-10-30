@@ -34,9 +34,18 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Ignore environment files
-.env
-dist
-# Sentry Config File
-.env.sentry-build-plugin
+# Ignore node_modules for both frontend and backend
+node_modules/
+
+# ignore next file 
+.next/
+.prettierignore
+.prettierrc
+settings.json
+disk
 package-lock.json
+# Ignore environment files
+/.env
+
+yarn.lock
+leox_multi.sol
