@@ -30,7 +30,7 @@ export const userProfileInfo = async (name:string)=>{
   const { address } = userDoc;
 
   const user = await findUser(address);
-  if (!user) return false;
+  if (!user) return null;
 
   const result = await Promise.allSettled([
     s.NFT.find({ seller: address }).lean(), //owned
@@ -38,7 +38,7 @@ export const userProfileInfo = async (name:string)=>{
     s.NFT.find({ owner: address }).lean(), //created
     s.NFT.find({ seller: address, isListed: true, claimed: true }).lean(), // sold
   ]);
-  const [owned, sale, created, sold] = result.map((e) => e.status == 'fulfilled' ? e.value : [] )
+  const [owned, sale, created, sold] = result.map((e) => e.status === 'fulfilled' ? e.value : [] )
 
   return {
     user: {

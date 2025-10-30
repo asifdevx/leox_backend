@@ -1,4 +1,4 @@
-import { createServer } from "https";
+import { createServer } from "http";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -16,6 +16,8 @@ const PORT = process.env.PORT || 8000;
 
 
 const allowedOrigin = "https://leox-multi.vercel.app"; 
+// const allowedOrigin = "http://192.168.19.43:3000"; 
+
 const corsOptions = {
   origin: allowedOrigin,
   credentials: true,
@@ -43,6 +45,7 @@ const httpServer = createServer(app);
 export const io = new Server(httpServer, {
   cors: { 
     origin: "https://leox-multi.vercel.app",
+    // origin: "http://192.168.19.43:3000",
     methods: ["GET", "POST"],
     credentials: true,
    },
@@ -55,9 +58,9 @@ app.use("/g", graphqlHTTP({ schema: marketplace, graphiql: true }));
 const start = async () => {
   try {
     await connetdb();
-    httpServer.listen(PORT, () =>
+    httpServer.listen({ port: PORT as number, host: "0.0.0.0" }, () => {
       console.log(`Server running on ${corsOptions.origin}:${PORT}`)
-    );
+    });
     await startNFTListener();
   } catch (error) {
     console.error("Error starting server:", error);
